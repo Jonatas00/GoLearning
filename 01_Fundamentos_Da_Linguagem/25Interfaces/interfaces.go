@@ -5,14 +5,6 @@ import (
 	"math"
 )
 
-type forma interface {
-	area() float64
-}
-
-func escreverArea(f forma) {
-	fmt.Printf("A Área da forma é %.2f\n", f.area())
-}
-
 type retangulo struct {
 	altura  float64
 	largura float64
@@ -27,13 +19,21 @@ type circulo struct {
 }
 
 func (c circulo) area() float64 {
-	return math.Pi * (math.Pow(c.raio, 2))
+	return math.Pi * math.Pow(c.raio, 2)
+}
+
+type forma interface {
+	area() float64
+}
+
+func escreverArea(f forma) {
+	fmt.Printf("A Área da forma é %0.2f\n", f.area())
 }
 
 func main() {
 	r := retangulo{10, 15}
 	escreverArea(r)
 
-	c := circulo{50}
+	c := circulo{10}
 	escreverArea(c)
 }
