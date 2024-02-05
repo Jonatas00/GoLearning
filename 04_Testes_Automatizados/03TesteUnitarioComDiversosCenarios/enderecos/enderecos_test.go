@@ -1,14 +1,23 @@
-package enderecos
+package enderecos_test
 
-import "testing"
-
+import (
+	. "introducao-a-testes/enderecos"
+	"testing"
+)
 type cenarioDeTeste struct {
 	enderecoInserido string
 	retornoEsperado string
 }
 
+// go test ./...
+// go test ./... -v                        <- Relatório mais detalhado
+// go test --cover                         <- Verificar cobertura do teste
+// go test --coverprofile cobertura.txt    <- cria arquivo de cobertura
+// go tool cover --html=cobertura.txt      <- visualiza em formato html
+
 func TestTipoDeEndereco(t *testing.T) {
-	
+	t.Parallel()
+
 	cenariosDeTeste := []cenarioDeTeste {
 		{ "Rua ABC", "Rua"},
 		{ "Avenida Paulista", "Avenida"},
@@ -29,5 +38,12 @@ func TestTipoDeEndereco(t *testing.T) {
 			)
 		}
 	}
+}
 
+func TestQualquer(t *testing.T) {
+	t.Parallel()
+
+	if 1 > 2 {
+		t.Errorf("Teste quebrou!")
+	}
 }
