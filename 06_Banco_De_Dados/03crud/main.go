@@ -1,6 +1,7 @@
 package main
 
 import (
+	"crud/servidor"
 	"fmt"
 	"log"
 	"net/http"
@@ -12,7 +13,8 @@ func main() {
 	// CREATE READ UPDATE DELETE
 
 	router := mux.NewRouter()
+	router.HandleFunc("/usuarios", servidor.CriarUsuario).Methods(http.MethodPost)
 
-	fmt.Println("Escutando na porta 5000")
-	log.Fatal(http.ListenAndServe(":5000", router))
+	fmt.Println("Escutando na porta 8080")
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
