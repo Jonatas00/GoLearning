@@ -14,8 +14,9 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/usuarios", servidor.CriarUsuario).Methods(http.MethodPost)
-	router.HandleFunc("/usuario", servidor.BuscarUSuarios).Methods(http.MethodGet)
+	router.HandleFunc("/usuarios", servidor.BuscarUSuarios).Methods(http.MethodGet)
 	router.HandleFunc("/usuarios/{id}", servidor.BuscarUSuario).Methods(http.MethodGet)
+	router.HandleFunc("/usuarios/{id}", servidor.AtualizarUsuario).Methods(http.MethodPut)
 
 	fmt.Println("Escutando na porta 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
