@@ -17,6 +17,7 @@ func main() {
 	router.HandleFunc("/usuarios", servidor.BuscarUSuarios).Methods(http.MethodGet)
 	router.HandleFunc("/usuarios/{id}", servidor.BuscarUSuario).Methods(http.MethodGet)
 	router.HandleFunc("/usuarios/{id}", servidor.AtualizarUsuario).Methods(http.MethodPut)
+	router.HandleFunc("/usuarios/{id}", servidor.DeletarUsuario).Methods(http.MethodDelete)
 
 	fmt.Println("Escutando na porta 8080")
 	log.Fatal(http.ListenAndServe(":8080", router))
