@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"errors"
+	"strings"
+	"time"
+)
 
 type Usuario struct {
 	ID       uint64    `json:"id,omitempty"`
@@ -9,4 +13,47 @@ type Usuario struct {
 	Email    string    `json:"email,omitempty"`
 	Senha    string    `json:"senha,omitempty"`
 	CriadoEm time.Time `json:"CriadoEm,omitempty"`
+}
+
+func (u *Usuario) validar() error {
+	var camposVazios []string
+
+	if u.Nome == "" {
+		camposVazios = append(camposVazios, "nome")
+	}
+	if u.Nick == "" {
+		camposVazios = append(camposVazios, "nick")
+	}
+	if u.Email == "" {
+		camposVazios = append(camposVazios, "email")
+	}
+
+	if u.Senha == "" {
+		camposVazios = append(camposVazios, "senha")
+	}
+
+	if len(camposVazios) > 0 {
+		mensagem := "Os seguintes campos estão vazios e não podem estar em branco: "
+		for _, campo := range camposVazios[1:] {
+			mensagem += ", " + campo
+		}
+
+		return errors.New(mensagem)
+	}
+
+	return nil
+}
+
+func (u *Usuario) formatar() {
+	u.Nome = strings.TrimSpace(u.Nome)
+	u.Nick = strings.TrimSpace(u.Nick)
+	u.Email = strings.TrimSpace(u.Email)
+}
+
+func (u *Usuario) Preparar() error {
+	if erro := u.validar(); erro != nil {
+		return erro
+	}
+	u.formatar()
+	return nil
 }
