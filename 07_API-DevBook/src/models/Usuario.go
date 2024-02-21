@@ -34,8 +34,8 @@ func (u *Usuario) validar() error {
 
 	if len(camposVazios) > 0 {
 		mensagem := "Os seguintes campos estão vazios e não podem estar em branco: "
-		for _, campo := range camposVazios[1:] {
-			mensagem += ", " + campo
+		for _, campo := range camposVazios {
+			mensagem += campo + ", "
 		}
 
 		return errors.New(mensagem)
