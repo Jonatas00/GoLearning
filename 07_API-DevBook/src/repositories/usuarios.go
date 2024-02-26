@@ -78,7 +78,7 @@ func (repositorio usuarios) BuscarPorID(ID uint64) (models.Usuario, error) {
 
 	if linhas.Next() {
 		if erro = linhas.Scan(
-				&usuario.Id, 
+				&usuario.ID, 
 				&usuario.Nome, 
 				&usuario.Nick, 
 				&usuario.Email,
