@@ -15,7 +15,7 @@ type Usuario struct {
 	CriadoEm time.Time `json:"CriadoEm,omitempty"`
 }
 
-func (u *Usuario) validar() error {
+func (u *Usuario) validar(etapa string) error {
 	var camposVazios []string
 
 	if u.Nome == "" {
@@ -28,7 +28,7 @@ func (u *Usuario) validar() error {
 		camposVazios = append(camposVazios, "email")
 	}
 
-	if u.Senha == "" {
+	if etapa == "cadastro" && u.Senha == "" {
 		camposVazios = append(camposVazios, "senha")
 	}
 
@@ -50,8 +50,8 @@ func (u *Usuario) formatar() {
 	u.Email = strings.TrimSpace(u.Email)
 }
 
-func (u *Usuario) Preparar() error {
-	if erro := u.validar(); erro != nil {
+func (u *Usuario) Preparar(etapa string) error {
+	if erro := u.validar(etapa); erro != nil {
 		return erro
 	}
 	u.formatar()
