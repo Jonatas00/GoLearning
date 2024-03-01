@@ -9,4 +9,4 @@ require (
 
 require github.com/go-sql-driver/mysql v1.7.1
 
-require github.com/badoux/checkmail v1.2.4 // indirect
+require github.com/badoux/checkmail v1.2.4
