@@ -1,6 +1,7 @@
 package models
 
 import (
+	"api/src/security"
 	"errors"
 	"strings"
 	"time"
@@ -49,16 +50,27 @@ func (u *Usuario) validar(etapa string) error {
 	return nil
 }
 
-func (u *Usuario) formatar() {
+func (u *Usuario) formatar(etapa string) error{
 	u.Nome = strings.TrimSpace(u.Nome)
 	u.Nick = strings.TrimSpace(u.Nick)
 	u.Email = strings.TrimSpace(u.Email)
+
+	if etapa == "cadastro" {
+		senhaComHash, erro := security.Hash(u.Senha)
+		if erro != nil {
+			return erro
+		}
+		u.Senha = string(senhaComHash)
+	}
+	return nil
 }
 
 func (u *Usuario) Preparar(etapa string) error {
 	if erro := u.validar(etapa); erro != nil {
 		return erro
 	}
-	u.formatar()
+	if erro := u.formatar(etapa); erro != nil {
+		return erro
+	}
 	return nil
 }
