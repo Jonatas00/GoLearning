@@ -1,12 +1,14 @@
 package controllers
 
 import (
+	"api/src/auth"
 	"api/src/banco"
 	"api/src/models"
 	"api/src/repositories"
 	"api/src/respostas"
 	"api/src/security"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 )
@@ -43,5 +45,8 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write([]byte("Você está logado!"))
+	token, _ := auth.CriarToken(usuarioSalvoNoBanco.ID)
+
+	fmt.Println(token)
+	w.Write([]byte(token))
 }
