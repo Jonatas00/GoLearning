@@ -1,11 +1,13 @@
 package controllers
 
 import (
+	"api/src/auth"
 	"api/src/banco"
 	"api/src/models"
 	"api/src/repositories"
 	"api/src/respostas"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"strconv"
@@ -100,6 +102,14 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 		respostas.Erro(w, http.StatusBadRequest, erro)
 		return
 	}
+
+	usuarioIdNoToken, erro := auth.ExtrairUsuarioID(r)
+	if erro != nil {
+		respostas.Erro(w, http.StatusUnauthorized, erro)
+		return
+	}
+
+	fmt.Println(usuarioIdNoToken)
 
 	corpoRequest, erro := io.ReadAll(r.Body)
 	if erro != nil {
