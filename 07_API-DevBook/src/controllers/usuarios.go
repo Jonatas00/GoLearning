@@ -7,7 +7,7 @@ import (
 	"api/src/repositories"
 	"api/src/respostas"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"io"
 	"net/http"
 	"strconv"
@@ -103,17 +103,21 @@ func AtualizarUsuario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usuarioIdNoToken, erro := auth.ExtrairUsuarioID(r)
+	usuarioIDNoToken, erro := auth.ExtrairUsuarioID(r)
 	if erro != nil {
 		respostas.Erro(w, http.StatusUnauthorized, erro)
 		return
 	}
 
-	fmt.Println(usuarioIdNoToken)
+	if usuarioID != usuarioIDNoToken {
+		respostas.Erro(w, http.StatusForbidden, errors.New("não é possível alterar um usuário que não seja seu"))
+		return
+	}
 
 	corpoRequest, erro := io.ReadAll(r.Body)
 	if erro != nil {
 		respostas.Erro(w, http.StatusUnprocessableEntity, erro)
+		return
 	}
 
 	var usuario models.Usuario
@@ -147,7 +151,7 @@ func DeletarUsuario(w http.ResponseWriter, r *http.Request) {
 	if erro != nil {
 		respostas.Erro(w, http.StatusInternalServerError, erro)
 	}
-	
+
 	db, erro := banco.Conectar()
 	if erro != nil {
 		respostas.Erro(w, http.StatusInternalServerError, erro)
