@@ -8,9 +8,9 @@ import (
 )
 
 type Rota struct {
-	URI    string
-	Metodo string
-	Funcao func(http.ResponseWriter, *http.Request)
+	URI                string
+	Metodo             string
+	Funcao             func(http.ResponseWriter, *http.Request)
 	RequerAutenticacao bool
 }
 
@@ -21,7 +21,7 @@ func Configurar(r *mux.Router) *mux.Router {
 	for _, rota := range rotas {
 		if rota.RequerAutenticacao {
 			r.HandleFunc(
-				rota.URI, 
+				rota.URI,
 				middlewares.Logger(
 					middlewares.Autenticar(rota.Funcao),
 				),
@@ -29,10 +29,10 @@ func Configurar(r *mux.Router) *mux.Router {
 		}
 
 		r.HandleFunc(
-			rota.URI, 
+			rota.URI,
 			middlewares.Logger(rota.Funcao),
 		).Methods(rota.Metodo)
 	}
-	
+
 	return r
 }
