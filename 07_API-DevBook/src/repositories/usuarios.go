@@ -20,7 +20,7 @@ func (repositorio usuarios) Criar(usuario models.Usuario) (uint64, error) {
 		return 0, erro
 	}
 	defer statement.Close()
-	
+
 	resultado, erro := statement.Exec(usuario.Nome, usuario.Nick, usuario.Email, usuario.Senha)
 	if erro != nil {
 		return 0, erro
@@ -35,7 +35,7 @@ func (repositorio usuarios) Criar(usuario models.Usuario) (uint64, error) {
 }
 
 func (repositorio usuarios) Buscar(nomeOuNick string) ([]models.Usuario, error) {
-	// nome LIKE %nome%	
+	// nome LIKE %nome%
 	nomeOuNick = fmt.Sprint("%", nomeOuNick, "%") // %nomeOuNick%
 
 	linhas, erro := repositorio.db.Query(
@@ -78,16 +78,16 @@ func (repositorio usuarios) BuscarPorID(ID uint64) (models.Usuario, error) {
 
 	if linhas.Next() {
 		if erro = linhas.Scan(
-				&usuario.ID, 
-				&usuario.Nome, 
-				&usuario.Nick, 
-				&usuario.Email,
-				&usuario.CriadoEm,
-			); erro != nil {
-				return models.Usuario{}, erro
+			&usuario.ID,
+			&usuario.Nome,
+			&usuario.Nick,
+			&usuario.Email,
+			&usuario.CriadoEm,
+		); erro != nil {
+			return models.Usuario{}, erro
 		}
 	}
-		return usuario, nil
+	return usuario, nil
 }
 
 func (repositiorio usuarios) Atualizar(ID uint64, usuario models.Usuario) error {
@@ -131,6 +131,20 @@ func (repositorio usuarios) BuscarPorEmail(email string) (models.Usuario, error)
 			return models.Usuario{}, erro
 		}
 	}
-	
+
 	return usuario, nil
+}
+
+func (repositorio usuarios) Seguir(usuarioID, seguidorID uint64) error {
+	statement, erro := repositorio.db.Prepare("insert ignore into seguidores (usuario_id, seguidor_id) values (?, ?)")
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(usuarioID, seguidorID); erro != nil {
+		return erro
+	}
+
+	return nil
 }
