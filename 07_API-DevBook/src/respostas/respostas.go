@@ -23,4 +23,4 @@ func Erro(w http.ResponseWriter, statusCode int, erro error) {
 	}{
 		Erro: erro.Error(),
 	})
-}	
+}
