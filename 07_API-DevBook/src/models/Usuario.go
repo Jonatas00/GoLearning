@@ -50,7 +50,7 @@ func (u *Usuario) validar(etapa string) error {
 	return nil
 }
 
-func (u *Usuario) formatar(etapa string) error{
+func (u *Usuario) formatar(etapa string) error {
 	u.Nome = strings.TrimSpace(u.Nome)
 	u.Nick = strings.TrimSpace(u.Nick)
 	u.Email = strings.TrimSpace(u.Email)
