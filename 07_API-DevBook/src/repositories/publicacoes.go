@@ -32,10 +32,10 @@ func (repositorio Publicacoes) Criar(publicacao models.Publicacao) (uint64, erro
 	return uint64(ultimoIDInserido), nil
 }
 
-func (repositorio Publicacoes) BuscarPorID(PublicacaoID uint64) (models.Publicacao, error) {
+func (repositorio Publicacoes) BuscarPorID(publicacaoID uint64) (models.Publicacao, error) {
 	linha, erro := repositorio.db.Query(
 		`SELECT p.*, u.nick FROM publicacoes p INNER JOIN usuarios u
-		ON u.id = p.autor_id where p.id = ?`, PublicacaoID,
+		ON u.id = p.autor_id where p.id = ?`, publicacaoID,
 	)
 	if erro != nil {
 		return models.Publicacao{}, erro
@@ -94,4 +94,18 @@ func (repositorio Publicacoes) Buscar(usuarioID uint64) ([]models.Publicacao, er
 	}
 
 	return publicacoes, nil
+}
+
+func (repositorio Publicacoes) Atualizar(publicacaoID uint64, publicacao models.Publicacao) error {
+	statement, erro := repositorio.db.Prepare("UPDATE publicacoes SET titulo = ?, conteudo = ? WHERE id = ?")
+	if erro != nil {
+		return erro
+	}
+	defer statement.Close()
+
+	if _, erro = statement.Exec(publicacao.Titulo, publicacao.Conteudo, publicacaoID); erro != nil {
+		return erro
+	}
+
+	return nil
 }
