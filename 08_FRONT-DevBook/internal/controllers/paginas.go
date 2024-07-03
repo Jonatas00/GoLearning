@@ -1,7 +1,12 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
+	"webapp/internal/config"
+	"webapp/internal/models"
+	"webapp/internal/requisicoes"
+	"webapp/internal/respostas"
 	"webapp/internal/utils"
 )
 
@@ -14,5 +19,20 @@ func CarregarPaginaDeCadastroDeUsuario(w http.ResponseWriter, r *http.Request) {
 }
 
 func CarregarPaginaPrincipal(w http.ResponseWriter, r *http.Request) {
-	utils.ExecutarTemplate(w, "home.html", nil)
+	url := fmt.Sprintf("%s/publicacoes", config.APIURL)
+	response, erro := requisicoes.FazerRequisicaoComAutenticacao(r, http.MethodGet, url, nil)
+	if erro != nil {
+		respostas.JSON(w, http.StatusInternalServerError, respostas.ErroAPI{Erro: erro.Error()})
+		return
+	}
+	defer response.Body.Close()
+
+	if response.StatusCode >= 400 {
+		respostas.TratarStatusCodeDeErro(w, response)
+		return
+	}
+
+	var publicacoes []models.Publicacao
+
+	utils.ExecutarTemplate(w, "home.html", publicacoes)
 }
