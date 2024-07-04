@@ -38,6 +38,5 @@ func CarregarPaginaPrincipal(w http.ResponseWriter, r *http.Request) {
 		respostas.JSON(w, http.StatusUnprocessableEntity, respostas.ErroAPI{Erro: erro.Error()})
 	}
 
-	fmt.Println(publicacoes)
 	utils.ExecutarTemplate(w, "home.html", publicacoes)
 }

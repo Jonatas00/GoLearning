@@ -6,10 +6,12 @@
   <title>Página principal</title>
 </head>
 <body>
-    <h2>Pagina principal</h2>
+    <h1>Pagina principal</h1>
 
     {{ range . }}
-      <h3>{{ .Titulo }}</h3>
+      <h2>Título: {{ .Titulo }}</h2>
+      <p>Conteúdo {{ .Conteudo }}</p>
     {{ end }}
+
 </body>
 </html>
