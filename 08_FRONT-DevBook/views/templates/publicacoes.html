@@ -1,6 +1,6 @@
 {{ define "curtidas"}}
-<i class="fa fa-solid fa-heart"></i>
-  <span>Curtidas: {{ .Curtidas }}</span>
+<i class="fa fa-solid fa-heart curtir-publicacao"></i>
+  <span>{{ .Curtidas }}</span>
 {{ end }}
 
 {{ define "editar" }}
@@ -21,7 +21,7 @@
 {{ define "publicacao-com-permissao" }}
   <div class="jumbotron" data-publicacao-id="{{ .ID }}">
     {{ template "cabecalho-publicacao" . }}
-    <p>
+    <p style="user-select: none;">
       {{ template "curtidas" .}}
       {{ template "editar"}}
       {{ template "deletar"}}
