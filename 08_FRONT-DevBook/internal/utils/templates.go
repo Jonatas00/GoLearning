@@ -15,3 +15,7 @@ func CarregarTemplates() {
 func ExecutarTemplate(w http.ResponseWriter, template string, dados any) {
 	templates.ExecuteTemplate(w, template, dados)
 }
+
+func Teste() (int, error) {
+	return 0, nil
+}
