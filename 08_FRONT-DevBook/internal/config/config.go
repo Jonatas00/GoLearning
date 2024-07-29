@@ -9,6 +9,7 @@ import (
 )
 
 var (
+	APPURL   = ""
 	APIURL   = ""
 	Porta    = 0
 	HashKey  []byte
@@ -27,6 +28,7 @@ func Carregar() {
 		log.Fatal(erro)
 	}
 
+	APPURL = os.Getenv("APP_URL")
 	APIURL = os.Getenv("API_URL")
 	HashKey = []byte(os.Getenv("HASH_KEY"))
 	BlockKey = []byte(os.Getenv("BLOCK_KEY"))

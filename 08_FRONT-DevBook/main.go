@@ -17,6 +17,7 @@ func main() {
 	utils.CarregarTemplates()
 	r := router.Gerar()
 
-	fmt.Printf("Escutando na porta %d \n", config.Porta)
+	url := fmt.Sprintf("%s:%d", config.APPURL, config.Porta)
+	fmt.Println(url)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Porta), r))
 }
