@@ -117,18 +117,15 @@ func CarregarPaginaDeUsuarios(w http.ResponseWriter, r *http.Request) {
 
 func CarregarPerfilDeUsuario(w http.ResponseWriter, r *http.Request) {
 	parametros := mux.Vars(r)
-	usuarioID, erro := strconv.ParseUint(parametros["publicacaoId"], 10, 64)
+	usuarioID, erro := strconv.ParseUint(parametros["usuarioId"], 10, 64)
 	if erro != nil {
+		fmt.Println(223232)
 		respostas.JSON(w, http.StatusBadRequest, respostas.ErroAPI{Erro: erro.Error()})
 		return
 	}
 
 	usuario, erro := models.BuscarUsuario(usuarioID, r)
-	if erro != nil {
-		respostas.JSON(w, http.StatusInternalServerError, respostas.ErroAPI{Erro: erro.Error()})
-		return
-	}
 
-	fmt.Println(usuario)
+	fmt.Println(usuario, erro)
 
 }
