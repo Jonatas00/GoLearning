@@ -123,7 +123,7 @@ func CarregarPerfilDoUsuario(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	usuario, erro := models.BuscarUsuario(usuarioID, r)
+	usuario, erro := models.BuscarUsuarioCompleto(usuarioID, r)
 	if erro != nil {
 		respostas.JSON(w, http.StatusInternalServerError, respostas.ErroAPI{Erro: erro.Error()})
 		return
